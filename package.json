@@ -1,0 +1,24 @@
+{
+  "name": "notion-confluence-migrator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sudoshreyansh/notion-confluence-migrator",
+  "author": "sudoshreyansh <shreyanshjain14072002@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "yarn build && node build/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.1.0",
+    "axios": "^0.27.2",
+    "chalk": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "emojis": "^1.0.10",
+    "notion-to-md": "^2.5.2"
+  }
+}
