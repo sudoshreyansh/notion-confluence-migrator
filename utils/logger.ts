@@ -8,19 +8,19 @@ const bgPrimary = chalk.bgHex(primaryColor)
 const fgPrimary = chalk.hex(primaryColor)
 
 const moveCursor = (dx: number, dy: number) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         stdout.moveCursor(dx, dy, () => resolve())
     })
 }
 
 const clearLine = () => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         stdout.clearLine(0, () => resolve())
     })
 }
 
 const cursorTo = (x: number, y?: number) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         stdout.cursorTo(x, y, () => resolve())
     })
 }
@@ -54,7 +54,7 @@ export const logFetchedPages = async (pages: Page[]) => {
     console.log()
     console.group()
 
-    for ( let page of pages ) {
+    for ( const page of pages ) {
         console.log(chalk.whiteBright('  ', page.title))
     }
 

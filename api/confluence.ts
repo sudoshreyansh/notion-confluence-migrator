@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from "axios"
 import markdownToConfluence from '@shogobg/markdown2confluence'
-import CustomError from '../utils/error.js'
 
 class Confluence {
     private _client: AxiosInstance;
