@@ -1,4 +1,4 @@
-import { Client as NotionClient } from '@notionhq/client'
+import { Client as NotionClient, iteratePaginatedAPI } from '@notionhq/client'
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { NotionToMarkdown } from 'notion-to-md'
 
@@ -23,14 +23,20 @@ class Notion {
     }
 
     async getPages(): Promise<Page[]> {
-        const response = await this._client.search({
-            filter: {
-                property: 'object',
-                value: 'page'
-            },
-        })
+        let results = [], response
+        do {
+            response =  await this._client.search({
+                filter: {
+                    property: 'object',
+                    value: 'page'
+                },
+                start_cursor: response && response.next_cursor
+            })
 
-        const pages = response.results
+            results = results.concat(response.results)
+        } while ( response.has_more )
+
+        const pages = results
             .filter((result: PageObjectResponse) =>
                 result.object === 'page' && 
                 result.parent.type === 'workspace' || result.parent.type === 'page_id' 
