@@ -9,7 +9,8 @@
     },
     "include": [
         "api/*",
-        "index.ts"
+        "index.ts",
+        "utils/*"
     ],
     "exclude": [
         "node_modules",
