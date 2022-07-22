@@ -21,7 +21,7 @@ Notion To Confluence Migrator is a CLI tool that migrates all your notion pages 
  yarn build
  ```
  
- Then create a .env file in the root of the project with the following template (An example can be found in .env.example):
+ Then create a .env file in the root of the project with the following template (An example can be found in [.env.example](https://github.com/sudoshreyansh/notion-confluence-migrator/blob/master/.env.example)):
  - Use this documentation to create Notion Integration and get an Auth Token: [Notion Docs](https://developers.notion.com/docs#step-1-create-an-integration)
  - Use this link to create a new API Token for Confluence: [Confluence API Tokens](https://id.atlassian.com/manage/api-tokens)
  
