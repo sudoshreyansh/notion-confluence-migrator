@@ -5,6 +5,7 @@
   "repository": "https://github.com/sudoshreyansh/notion-confluence-migrator",
   "author": "sudoshreyansh <shreyanshjain14072002@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -15,6 +16,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.1.0",
+    "@shogobg/markdown2confluence": "^0.1.7",
     "axios": "^0.27.2",
     "chalk": "^5.0.1",
     "dotenv": "^16.0.1",

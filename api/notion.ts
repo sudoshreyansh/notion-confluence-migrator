@@ -2,9 +2,10 @@ import { Client as NotionClient } from '@notionhq/client'
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { NotionToMarkdown } from 'notion-to-md'
 
-type Page = {
+export type Page = {
     id: string,
     title: string,
+    parentId?: string
 }
 
 class Notion {
@@ -32,7 +33,7 @@ class Notion {
         const pages = response.results
             .filter((result: PageObjectResponse) =>
                 result.object === 'page' && 
-                result.parent.type === 'workspace' 
+                result.parent.type === 'workspace' || result.parent.type === 'page_id' 
             )
             .map(async (result: PageObjectResponse) => {
                 const res = await this._client.pages.properties.retrieve({
@@ -46,8 +47,9 @@ class Notion {
                     res.results[0].type === 'title' && 
                     res.results[0].title.plain_text
                 )
+                const parentId = result.parent.type === 'page_id' && result.parent.page_id
 
-                return { id, title }
+                return { id, title, parentId }
             })
 
         return Promise.all(pages)
@@ -55,8 +57,8 @@ class Notion {
 
     async getMarkdownData(id: string): Promise<string> {
         const markdownBlocks = await this._markdownGenerator.pageToMarkdown(id)
-        const markdownString = await this._markdownGenerator.toMarkdownString(markdownBlocks)
-        return markdownString
+        const markdown = await this._markdownGenerator.toMarkdownString(markdownBlocks)
+        return markdown
     }
 }
 

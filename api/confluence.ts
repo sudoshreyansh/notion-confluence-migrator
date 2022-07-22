@@ -1,4 +1,6 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios"
+import markdownToConfluence from '@shogobg/markdown2confluence'
+import CustomError from '../utils/error.js'
 
 class Confluence {
     private _client: AxiosInstance;
@@ -23,9 +25,11 @@ class Confluence {
     }
 
     async convertBody(markdown: string) {
+        const wikiMarkdown = markdownToConfluence(markdown)
+
         const convertBodyUri = '/wiki/rest/api/contentbody/convert/storage'
         const data = {
-            value: markdown,
+            value: wikiMarkdown,
             representation: 'wiki'
         }
 
@@ -33,10 +37,9 @@ class Confluence {
         return res.data.value
     }
 
-    async createPage(id: string, title: string, body: string) {
+    async createPage(title: string, body: string, parentId?: string) {
         const createPageUri = '/wiki/rest/api/content'
         const data = {
-            //id,
             title,
             type: 'page',
             space: this._space,
@@ -45,16 +48,16 @@ class Confluence {
                     value: body,
                     representation: 'storage'
                 }
-            }
+            },
+            ...(parentId && {
+                ancestors: [{
+                    id: parentId
+                }]
+            })
         }
         
-        let res
-        try {
-            res = await this._client.post(createPageUri, data)
-        } catch ( e ) {
-            console.log(e)
-        }
-        return res.data
+        const res = await this._client.post(createPageUri, data)
+        return res.data.id
     }
 }
 

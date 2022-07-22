@@ -10,6 +10,13 @@
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
 
+"@shogobg/markdown2confluence@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@shogobg/markdown2confluence/-/markdown2confluence-0.1.7.tgz#07b0b9cf5d605a20cfb8b6defd28ff73f0bbf0ed"
+  integrity sha512-v0Z+TPdUo432YZvanelqDlWTeaJtmK4N6Kgwdbi77xuBBP7oxTeMxa/WJimatz6b3Pt7FMCo0OL6Cvejba9jgA==
+  dependencies:
+    marked "^4.0.0"
+
 "@types/node-fetch@^2.5.10":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.2.tgz#d1a9c5fd049d9415dce61571557104dec3ec81da"
@@ -92,6 +99,11 @@ markdown-table@^2.0.0:
   integrity sha512-Ezda85ToJUBhM6WGaG6veasyym+Tbs3cMAw/ZhOPqXiYsr0jgocBV3j3nx+4lk47plLlIqjwuTm/ywVI+zjJ/A==
   dependencies:
     repeat-string "^1.0.0"
+
+marked@^4.0.0:
+  version "4.0.18"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.18.tgz#cd0ac54b2e5610cfb90e8fd46ccaa8292c9ed569"
+  integrity sha512-wbLDJ7Zh0sqA0Vdg6aqlbT+yPxqLblpAZh1mK2+AO2twQkPywvvqQNfEPVwSSRjZ7dZcdeVBIAgiO7MMp3Dszw==
 
 mime-db@1.52.0:
   version "1.52.0"
