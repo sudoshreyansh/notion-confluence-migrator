@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node build/index.js",
+    "start": "yarn build && node build/index.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts"
   },
@@ -23,9 +23,16 @@
     "@notionhq/client": "^2.1.0",
     "@shogobg/markdown2confluence": "^0.1.7",
     "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
     "chalk": "^5.0.1",
     "dotenv": "^16.0.1",
     "emojis": "^1.0.10",
-    "notion-to-md": "^2.5.2"
+    "express": "^4.18.1",
+    "express-openapi-validator": "^4.13.8",
+    "joi": "^17.6.0",
+    "notion-to-md": "^2.5.2",
+    "swagger-ui-express": "^4.5.0",
+    "uuid": "^8.3.2",
+    "yamljs": "^0.3.0"
   }
 }

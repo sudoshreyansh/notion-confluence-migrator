@@ -1,4 +1,4 @@
-import { Client as NotionClient, iteratePaginatedAPI } from '@notionhq/client'
+import { Client as NotionClient } from '@notionhq/client'
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { NotionToMarkdown } from 'notion-to-md'
 
@@ -47,15 +47,17 @@ class Notion {
                     property_id: 'title'
                 })
                 
-                const id = result.id
-                const title = (
-                    res.object === 'list' && 
-                    res.results[0].type === 'title' && 
-                    res.results[0].title.plain_text
-                )
-                const parentId = result.parent.type === 'page_id' && result.parent.page_id
-
-                return { id, title, parentId }
+                const page: Page = { 
+                    id: result.id, 
+                    title: (
+                        res.object === 'list' && 
+                        res.results[0].type === 'title' && 
+                        res.results[0].title.plain_text
+                    ) as string
+                }
+                
+                result.parent.type === 'page_id' && (page.parentId = result.parent.page_id)
+                return page
             })
 
         return Promise.all(pages)

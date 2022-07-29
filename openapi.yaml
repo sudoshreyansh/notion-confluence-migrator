@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Notion to Confluence Migrator
+  version: '1.0'
+paths:
+  /api/pages:
+    get:
+      summary: 'Get Notion pages corresponding to the Integrator Auth Token'
+      parameters:
+        - name: notionToken
+          in: query
+          description: Notion integration auth token
+          required: true
+          schema:
+            type: string
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - pages
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - title
+                      properties:
+                        id: 
+                          type: string
+                        title:
+                          type: string
+                        parentId:
+                          type: string
+        '500':
+          description: 'Some error has occured'
+  /api/migrate:
+    post:
+      summary: 'Start a migrator task'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notionToken
+                - confluenceBaseUri
+                - confluenceUsername
+                - confluenceToken
+                - confluenceSpace
+              properties:
+                notionToken: 
+                  type: string
+                confluenceBaseUri:
+                  type: string
+                confluenceUsername:
+                  type: string
+                confluenceToken:
+                  type: string
+                confluenceSpace:
+                  type: string
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - taskId
+                properties:
+                  taskId:
+                    type: string
+        '500':
+          description: 'Some error has occured'
+  /api/status:
+    get:
+      summary: 'Get status of a task'
+      parameters:
+        - name: taskId
+          in: query
+          description: Migrator Task ID
+          required: true
+          schema:
+            type: string
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - completed
+                  - tasks
+                  - errors
+                properties:
+                  status:
+                    type: number
+                  completed:
+                    type: number
+                  tasks:
+                    type: number
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - index
+                        - error
+                      properties:
+                        index:
+                          type: number
+                        error:
+                          type: string
+        '500':
+          description: 'Some error has occured'

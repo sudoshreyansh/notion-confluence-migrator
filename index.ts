@@ -1,32 +1,38 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import Migrator from './api/migrator.js'
-import * as Logger from './utils/logger.js'
+import express from 'express'
+import router from './routes/index.js'
+import bodyParser from 'body-parser'
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
+import * as OpenApiValidator from 'express-openapi-validator'
 
-(async () => {
-    const notionAuthToken = process.env.NOTION_AUTH_TOKEN
-    const confluenceToken = process.env.CONFLUENCE_TOKEN
-    const confluenceEmail = process.env.CONFLUENCE_EMAIL
-    const confluenceDomain = process.env.CONFLUENCE_DOMAIN
-    const confluenceSpace = process.env.CONFLUENCE_SPACE
+const app = express()
+const port = process.env.PORT
+const swaggerDocument = YAML.load('./openapi.yaml');
 
-    Logger.logIntro()
+app.set('etag', false)
+app.use(bodyParser.json())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+    OpenApiValidator.middleware({
+        apiSpec: './openapi.yaml',
+        validateRequests: true,
+        validateResponses: true,
+    }),
+);
+  
 
-    if (
-        !notionAuthToken ||
-        !confluenceToken ||
-        !confluenceEmail ||
-        !confluenceDomain || 
-        !confluenceSpace
-    ) {
-        Logger.logError('Environment variables are missing!')
-        console.log()
-        return;
-    }
+app.use('/api', router)
+app.use((req, res) => res.sendStatus(404))
 
-    Logger.logPrerequisitesFound()
+app.use((err, req, res, next) => {
+    res.status(500).json({
+        message: err.message,
+        errors: err.errors,
+    });
+});
+  
 
-    const migrator = new Migrator(notionAuthToken, confluenceDomain, confluenceEmail, confluenceToken, confluenceSpace)
-    await migrator.migrate()
-})()
+app.listen(port, () => console.log(`Listening on port ${port}`))

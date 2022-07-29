@@ -1,29 +1,30 @@
 import Notion from './notion.js'
 import Confluence from './confluence.js'
-import * as Logger from '../utils/logger.js'
-import CustomError from '../utils/error.js';
-
-type CustomErrorStorage = {
-    index: number,
-    error: CustomError
-}
+import CustomError from '../utils/error.js'
+import StatusManager from './status.js'
 
 class Migrator {
     private _notion: Notion
     private _confluence: Confluence
-    private _errors: CustomErrorStorage[]
     private _notionToConfluenceIds: Map<string, string>
 
     constructor(
-        notionToken: string, 
-        confluenceBaseUri: string, 
-        confluenceUsername: string, 
-        confluenceToken: string, 
-        confluenceSpace: string
+        {
+            notionToken, 
+            confluenceBaseUri,
+            confluenceUsername,
+            confluenceToken,
+            confluenceSpace
+        }: {
+            notionToken: string, 
+            confluenceBaseUri: string, 
+            confluenceUsername: string, 
+            confluenceToken: string, 
+            confluenceSpace: string
+        }
     ) {
         this._notion = new Notion(notionToken)
         this._confluence = new Confluence(confluenceBaseUri, confluenceUsername, confluenceToken, confluenceSpace)
-        this._errors = []
         this._notionToConfluenceIds = new Map<string, string>
     }
 
@@ -37,42 +38,39 @@ class Migrator {
         }
     }
 
-    async migrate() {
+    async migrate(taskId: string) {
         let pages
         try {
             pages = await this._notion.getPages()
         } catch ( e ) {
-            console.log()
-            Logger.logError(e.message)
-            console.log()
+            StatusManager.startProgress(taskId, 0)
+            StatusManager.updateProgress(taskId, {
+                index: -1,
+                error: e.message
+            })
+            StatusManager.completeProgress(taskId)
             return
         }
 
-        await Logger.logFetchedPages(pages)
         const count = pages.length
+        StatusManager.startProgress(taskId, count)
 
         for ( let i = 0; i < count; i++ ) {
             try {
-                await Logger.updatePageStatus(pages, i, 0)
-
                 const parentId = this._notionToConfluenceIds.get(pages[i].parentId)
                 const confluenceId = await this.migratePage(pages[i].id, pages[i].title, parentId)
                 this._notionToConfluenceIds.set(pages[i].id, confluenceId)
                 
-                await Logger.updatePageStatus(pages, i, 1)
-
+                StatusManager.updateProgress(taskId)
             } catch ( e ) {
-                this._errors.push({
+                StatusManager.updateProgress(taskId, {
                     index: i,
-                    error: e
+                    error: e.message
                 })
-
-                await Logger.updatePageStatus(pages, i, -1)
             }
         }
 
-        if ( this._errors.length > 0 ) await Logger.logCompletionError(pages, this._errors)
-        else await Logger.logCompletion(pages)
+        StatusManager.completeProgress(taskId)
     }
 }
 

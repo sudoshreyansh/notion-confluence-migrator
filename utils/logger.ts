@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import emojis from 'emojis'
 import { stdout } from 'process'
-import { Page } from '../api/notion'
+import { Page } from '../service/notion'
 
 const primaryColor = '#08d2a1'
 const bgPrimary = chalk.bgHex(primaryColor)
