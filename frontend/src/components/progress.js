@@ -138,8 +138,8 @@ function Progress({ config }) {
                 {
                     errors.length > 0 ?
                     <div className="mb-4">
-                        {errors.map(error => (
-                            <div className="text-error ml-2">
+                        {errors.map((error, i) => (
+                            <div className="text-error ml-2" key={i}>
                                 {error.index >= 0 ? flattenPageStructure[error.index].title + ': ' : ''}{error.error}
                             </div>
                         ))}
