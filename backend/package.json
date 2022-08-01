@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "postinstall": "npm run tsc",
+    "postinstall": "npm run build",
     "start": "node build/index.js",
     "start:dev": "yarn build && node build/index.js",
     "lint": "eslint . --ext .ts",
