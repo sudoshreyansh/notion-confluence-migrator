@@ -15,6 +15,8 @@ Notion To Confluence Migrator is a web application that migrates all your notion
  Live URL: https://notion-confluence-migrator-sudoshreyansh.vercel.app/ <br />
  Backend Swagger UI: https://notion-confluence-migrator.herokuapp.com/api-docs
  
+ <br />
+ 
  ## Usage
 
 Before using the web app, you need to generate some tokens for access to the APIs.
@@ -31,6 +33,8 @@ Before using the web app, you need to generate some tokens for access to the API
 You have to then go to the Notion workspace and give the integration you created access to all the pages that you want to migrate to confluence (Note this migrator doesn't work with databases yet!). Notion's docs mention it may take some time to index your changes. Once done, you are ready to run the migrator.
 
 Head to the `frontend` and `backend` directories to start the respective service or use the Hosted URLs. Since Hosting is on Free plan, there might be some limitations in performance and sleep time.
+
+<br />
 
 ## Working
 
