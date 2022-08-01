@@ -6,6 +6,7 @@ paths:
   /api/pages:
     get:
       summary: 'Get Notion pages corresponding to the Integrator Auth Token'
+      operationId: 'getNotionPages'
       parameters:
         - name: notionToken
           in: query
@@ -43,6 +44,7 @@ paths:
   /api/migrate:
     post:
       summary: 'Start a migrator task'
+      operationId: 'startMigrationTask'
       requestBody:
         required: true
         content:
@@ -83,6 +85,7 @@ paths:
   /api/status:
     get:
       summary: 'Get status of a task'
+      operationId: 'getMigrationTaskStatus'
       parameters:
         - name: taskId
           in: query
