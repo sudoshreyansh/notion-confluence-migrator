@@ -44,7 +44,7 @@ function Form({ onSubmit }) {
             </label>
             <input type="text" placeholder="Type here" required={true} className="input input-bordered w-full mb-3" value={input.confluenceBaseUri} onChange={handleChange('confluenceBaseUri')}  />
             <label className="label">
-                <span className="label-text">Confluence Space<span className='text-red-500'>*</span></span>
+                <span className="label-text">Confluence Workpace Key<span className='text-red-500'>*</span></span>
             </label>
             <input type="text" placeholder="Type here" required={true} className="input input-bordered w-full mb-6" value={input.confluenceSpace} onChange={handleChange('confluenceSpace')}  />
 
