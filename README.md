@@ -11,9 +11,10 @@ Notion To Confluence Migrator is a web application that migrates all your notion
   - Headings
   - Divider
   - Links
- 
- Live URL: https://notion-confluence-migrator-sudoshreyansh.vercel.app/ <br />
- Backend Swagger UI: https://notion-confluence-migrator.herokuapp.com/api-docs
+
+ _(Sadly, Heroku stopped their free plan)_ <br />
+ Live URL: <br />
+ Backend Swagger UI: 
  
  <br />
  
